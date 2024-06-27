@@ -50,6 +50,14 @@ class LinkedScrollControllerGroup {
     return controller;
   }
 
+  ScrollController addController(ScrollController controller) {
+    assert(_allControllers.isEmpty, "Only the first controller can be added manually.");
+    final linkedController = _LinkedScrollController(this, initialScrollOffset: controller.initialScrollOffset);
+    _allControllers.add(linkedController);
+    controller.addListener(_offsetNotifier.notifyListeners);
+    return linkedController;
+  }
+
   /// Adds a callback that will be called when the value of [offset] changes.
   void addOffsetChangedListener(VoidCallback onChanged) {
     _offsetNotifier.addListener(onChanged);
